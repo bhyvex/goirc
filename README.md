@@ -18,7 +18,7 @@ This will connect to freenode and join `#go-nuts` by default, so be careful ;-)
 
 Synopsis:
 
-    import irc "github.com/fluffle/goirc/client"
+    import irc "github.com/ajray/goirc/irc"
     func main() {
         c := irc.New("nick", "ident", "real name")
         // Optionally, turn on debugging
