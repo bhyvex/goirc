@@ -5,7 +5,7 @@ GoIRC Client Framework
 
 Pretty simple, really:
 
-	goinstall github.com/fluffle/goirc
+	goinstall github.com/ajray/goirc
 
 You can build the test client also with:
 
@@ -63,3 +63,6 @@ and `*Conn.recv()`. I'm sure things could be more asynchronous, still.
 
 This code is (c) 2009-10 Alex Bramley, and released under the same licence terms
 as Go itself.
+
+Modified 2011 by [Alex Ray](mailto:ajray@ncsu.edu) mostly to remove reflect and 
+bring net.Dial up to date.
