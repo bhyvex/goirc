@@ -3,10 +3,7 @@ package irc
 // Here you'll find the Channel and Nick structs
 // as well as the internal state maintenance code for the handlers
 
-import (
-	"fmt"
-	"strconv"
-)
+import "strconv"
 
 // A struct representing an IRC channel
 type Channel struct {
@@ -400,16 +397,16 @@ func (n *Nick) String() string {
 //	+npk key
 func (cm *ChanMode) String() string {
 	str, end := "+", ""
-    if cm.Private           { str += 'p' }
-    if cm.Secret            { str += 's' }
-    if cm.ProtectedTopic    { str += 't' }
-    if cm.NoExternalMsg     { str += 'n' }
-    if cm.Moderated         { str += 'm' }
-    if cm.InviteOnly        { str += 'i' }
-    if cm.OperOnly          { str += 'O' }
-    if cm.SSLOnly           { str += 'z' }
-    if cm.Key != ''         { str += 'k' ; end += ' ' + cm.Key }
-    if cm.Limit != 0        { str += 'l' ; end += ' ' + cm.Limit }
+    if cm.Private           { str += "p" }
+    if cm.Secret            { str += "s" }
+    if cm.ProtectedTopic    { str += "t" }
+    if cm.NoExternalMsg     { str += "n" }
+    if cm.Moderated         { str += "m" }
+    if cm.InviteOnly        { str += "i" }
+    if cm.OperOnly          { str += "O" }
+    if cm.SSLOnly           { str += "z" }
+    if cm.Key != ""         { str += "k" ; end += " " + cm.Key }
+    if cm.Limit != 0        { str += "l" ; end += " " + strconv.Itoa(cm.Limit) }
 	if str == "+" {
 		str = "No modes set"
 	}
@@ -420,11 +417,11 @@ func (cm *ChanMode) String() string {
 //	+iwx
 func (nm *NickMode) String() string {
 	str := "+"
-    if nm.Invisible     { str += 'i' }
-    if nm.Oper          { str += 'o' }
-    if nm.WallOps       { str += 'w' }
-    if nm.HiddenHost    { str += 'x' }
-    if nm.SSL           { str += 'z' }
+    if nm.Invisible     { str += "i" }
+    if nm.Oper          { str += "o" }
+    if nm.WallOps       { str += "w" }
+    if nm.HiddenHost    { str += "x" }
+    if nm.SSL           { str += "z" }
 	if str == "+" {
 		str = "No modes set"
 	}
@@ -435,11 +432,11 @@ func (nm *NickMode) String() string {
 //	+o
 func (p *ChanPrivs) String() string {
 	str := "+"
-    if p.Owner  { str += 'q' }
-    if p.Admin  { str += 'a' }
-    if p.Op     { str += 'o' }
-    if p.HalfOp { str += 'h' }
-    if p.Voice  { str += 'v' }
+    if p.Owner  { str += "q" }
+    if p.Admin  { str += "a" }
+    if p.Op     { str += "o" }
+    if p.HalfOp { str += "h" }
+    if p.Voice  { str += "v" }
 	if str == "+" {
 		str = "No modes set"
 	}
