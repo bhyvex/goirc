@@ -1,11 +1,10 @@
-package client
+package irc
 
 // Here you'll find the Channel and Nick structs
 // as well as the internal state maintenance code for the handlers
 
 import (
 	"fmt"
-	"reflect"
 	"strconv"
 )
 
@@ -400,54 +399,32 @@ func (n *Nick) String() string {
 // Returns a string representing the channel modes. Looks like:
 //	+npk key
 func (cm *ChanMode) String() string {
-	str := "+"
-	a := make([]string, 2)
-	v := reflect.Indirect(reflect.NewValue(cm)).(*reflect.StructValue)
-	t := v.Type().(*reflect.StructType)
-	for i := 0; i < v.NumField(); i++ {
-		switch f := v.Field(i).(type) {
-		case *reflect.BoolValue:
-			if f.Get() {
-				str += ChanModeToString[t.Field(i).Name]
-			}
-		case *reflect.StringValue:
-			if f.Get() != "" {
-				str += ChanModeToString[t.Field(i).Name]
-				a[0] = f.Get()
-			}
-		case *reflect.IntValue:
-			if f.Get() != 0 {
-				str += ChanModeToString[t.Field(i).Name]
-				a[1] = fmt.Sprintf("%d", f.Get())
-			}
-		}
-	}
-	for _, s := range a {
-		if s != "" {
-			str += " " + s
-		}
-	}
+	str, end := "+", ""
+    if cm.Private           { str += 'p' }
+    if cm.Secret            { str += 's' }
+    if cm.ProtectedTopic    { str += 't' }
+    if cm.NoExternalMsg     { str += 'n' }
+    if cm.Moderated         { str += 'm' }
+    if cm.InviteOnly        { str += 'i' }
+    if cm.OperOnly          { str += 'O' }
+    if cm.SSLOnly           { str += 'z' }
+    if cm.Key != ''         { str += 'k' ; end += ' ' + cm.Key }
+    if cm.Limit != 0        { str += 'l' ; end += ' ' + cm.Limit }
 	if str == "+" {
 		str = "No modes set"
 	}
-	return str
+	return str+end
 }
 
 // Returns a string representing the nick modes. Looks like:
 //	+iwx
 func (nm *NickMode) String() string {
 	str := "+"
-	v := reflect.Indirect(reflect.NewValue(nm)).(*reflect.StructValue)
-	t := v.Type().(*reflect.StructType)
-	for i := 0; i < v.NumField(); i++ {
-		switch f := v.Field(i).(type) {
-		// only bools here at the mo!
-		case *reflect.BoolValue:
-			if f.Get() {
-				str += NickModeToString[t.Field(i).Name]
-			}
-		}
-	}
+    if nm.Invisible     { str += 'i' }
+    if nm.Oper          { str += 'o' }
+    if nm.WallOps       { str += 'w' }
+    if nm.HiddenHost    { str += 'x' }
+    if nm.SSL           { str += 'z' }
 	if str == "+" {
 		str = "No modes set"
 	}
@@ -458,17 +435,11 @@ func (nm *NickMode) String() string {
 //	+o
 func (p *ChanPrivs) String() string {
 	str := "+"
-	v := reflect.Indirect(reflect.NewValue(p)).(*reflect.StructValue)
-	t := v.Type().(*reflect.StructType)
-	for i := 0; i < v.NumField(); i++ {
-		switch f := v.Field(i).(type) {
-		// only bools here at the mo too!
-		case *reflect.BoolValue:
-			if f.Get() {
-				str += ChanPrivToString[t.Field(i).Name]
-			}
-		}
-	}
+    if p.Owner  { str += 'q' }
+    if p.Admin  { str += 'a' }
+    if p.Op     { str += 'o' }
+    if p.HalfOp { str += 'h' }
+    if p.Voice  { str += 'v' }
 	if str == "+" {
 		str = "No modes set"
 	}
